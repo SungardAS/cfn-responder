@@ -24,8 +24,6 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
 
     var responseBody = JSON.stringify(jsonBody);
 
-    console.log("Response body:\n", responseBody);
-
     var https = require("https");
     var url = require("url");
 
