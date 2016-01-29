@@ -4,12 +4,12 @@
    A copy of the License is located at http://aws.amazon.com/agreement/.
    This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, express or implied.
    See the License for the specific language governing permissions and limitations under the License. */
- 
+
 exports.SUCCESS = "SUCCESS";
 exports.FAILED = "FAILED";
- 
+
 exports.send = function(event, context, responseStatus, responseData, physicalResourceId) {
- 
+
     var jsonBody = {
         Status: responseStatus,
         Reason: "See the details in CloudWatch Log Stream: " + context.logStreamName,
@@ -23,12 +23,12 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
     }
 
     var responseBody = JSON.stringify(jsonBody);
- 
+
     console.log("Response body:\n", responseBody);
- 
+
     var https = require("https");
     var url = require("url");
- 
+
     var parsedUrl = url.parse(event.ResponseURL);
     var options = {
         hostname: parsedUrl.hostname,
@@ -40,18 +40,18 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
             "content-length": responseBody.length
         }
     };
- 
+
     var request = https.request(options, function(response) {
-        console.log("Status code: " + response.statusCode);
-        console.log("Status message: " + response.statusMessage);
-        context.done();
+        if (response.statusCode === 200)
+          return context.done(null, responseBody);
+
+        context.done(response.statusCode,responseBody);
     });
- 
+
     request.on("error", function(error) {
-        console.log("send(..) failed executing https.request(..): " + error);
-        context.done();
+        context.done("send(..) failed executing https.request(..): " + error);
     });
- 
+
     request.write(responseBody);
     request.end();
 }
