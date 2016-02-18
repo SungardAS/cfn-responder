@@ -1,17 +1,18 @@
 {
-  "name": "cfn-response",
-  "version": "1.0.0",
-  "description": "A module for sending responses from lambda-funciton backed custom resources in AWS CloudFormation",
+  "name": "cfn-responder",
+  "version": "0.1.0",
+  "description": "A module for sending CloudFormation compatible responses from AWS Lambda",
   "main": "index.js",
   "repository" : {
     "type" : "git",
-    "url" : "https://github.com/LukeMizuhashi/cfn-response.git"
+    "url" : "https://github.com/SungardAS/cfn-responder.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "aws",
+    "cfn-responder",
     "cfn-response",
     "response",
     "lambda",
@@ -22,6 +23,6 @@
     "cloud",
     "formation"
   ],
-  "author": "Amazon Web Services, Inc. or its affiliates",
-  "license": "SEE LICENSE IN license.txt"
+  "author": "kevin.mcgrath@sungardas.com",
+  "license": "Apache-2.0"
 }

@@ -1,4 +1,4 @@
-#cfn-response module
+#cfn-responder
 
 This module contains functions that respond on behalf of custom resources you create using AWS CloudFormation.
 
