@@ -3,6 +3,7 @@ exports.FAILED = "FAILED";
 
 exports.send = function(event, context, responseStatus, responseData, physicalResourceId) {
 
+  responseData = responseData || {};
   if (typeof responseData !== 'object') {
     return context.done("'Data' must be a key/pair object");
   }
