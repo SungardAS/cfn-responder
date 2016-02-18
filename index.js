@@ -1,14 +1,8 @@
-/* Copyright 2015 Amazon Web Services, Inc. or its affiliates. All Rights Reserved.
-   This file is licensed to you under the AWS Customer Agreement (the "License").
-   You may not use this file except in compliance with the License.
-   A copy of the License is located at http://aws.amazon.com/agreement/.
-   This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, express or implied.
-   See the License for the specific language governing permissions and limitations under the License. */
-
 exports.SUCCESS = "SUCCESS";
 exports.FAILED = "FAILED";
 
 exports.send = function(event, context, responseStatus, responseData, physicalResourceId) {
+
 
     var jsonBody = {
         Status: responseStatus,
@@ -18,8 +12,12 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
         LogicalResourceId: event.LogicalResourceId,
         Data: responseData
     };
+
     if (!(event.RequestType === 'Create' && responseStatus === exports.FAILED)) {
       jsonBody.PhysicalResourceId = physicalResourceId || context.logStreamName;
+    }
+    else if (responseData && typeof yourVariable !== 'object') {
+      context.done("'Data' must be a key/pair object");
     }
 
     var responseBody = JSON.stringify(jsonBody);
