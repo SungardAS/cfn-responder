@@ -52,7 +52,6 @@ describe("cfn-responder", function() {
 
     var context = {
       done: function(err,obj) {
-        obj = JSON.parse(obj);
         assert.ifError(err);
         assert(obj.RequestId);
         assert.equal(obj.PhysicalResourceId,undefined);
@@ -80,7 +79,6 @@ describe("cfn-responder", function() {
 
     var context = {
       done: function(err,obj) {
-        obj = JSON.parse(obj);
         assert.ifError(err);
         assert(obj.RequestId);
         assert(obj.PhysicalResourceId);

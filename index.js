@@ -10,7 +10,8 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
 
   var jsonBody = {
     Status: responseStatus,
-    Reason: "See the details in CloudWatch Log Stream: " + context.logStreamName,
+    Reason: event.Reason || "See the details in CloudWatch Log Stream: " + context.logStreamName,
+    CloudWatchLogsStream: context.logStreamName,
     StackId: event.StackId,
     RequestId: event.RequestId,
     LogicalResourceId: event.LogicalResourceId,
@@ -40,7 +41,7 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
 
   var request = https.request(options, function(response) {
     if (response.statusCode === 200)
-      return context.done(null, responseBody);
+      return context.done(null, jsonBody);
 
     context.done(response.statusCode,responseBody);
   });
