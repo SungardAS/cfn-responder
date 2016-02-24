@@ -11,7 +11,6 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
   var jsonBody = {
     Status: responseStatus,
     Reason: event.Reason || "See the details in CloudWatch Log Stream: " + context.logStreamName,
-    CloudWatchLogsStream: context.logStreamName,
     StackId: event.StackId,
     RequestId: event.RequestId,
     LogicalResourceId: event.LogicalResourceId,
