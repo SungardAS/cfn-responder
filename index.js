@@ -42,7 +42,7 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
     if (response.statusCode === 200)
       return context.done(null, jsonBody);
 
-    context.done(response.statusCode,responseBody);
+    context.done(response.statusCode,jsonBody);
   });
 
   request.on("error", function(error) {
