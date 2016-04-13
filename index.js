@@ -39,10 +39,15 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
   };
 
   var request = https.request(options, function(response) {
-    if (response.statusCode === 200)
+    if (response.statusCode === 200 && responseStatus === exports.SUCCESS)
       return context.done(null, jsonBody);
 
-    context.done(response.statusCode,jsonBody);
+    if (response.statusCode === 200 && responseStatus === exports.FAILED) {
+      console.error(jsonBody);
+      return context.done(jsonBody.Reason, jsonBody);
+    }
+
+    context.done("Failed to communicate to S3: " + response.statusCode,jsonBody);
   });
 
   request.on("error", function(error) {
