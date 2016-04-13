@@ -52,7 +52,7 @@ describe("cfn-responder", function() {
 
     var context = {
       done: function(err,obj) {
-        assert.ifError(err);
+        assert(err);
         assert(obj.RequestId);
         assert.equal(obj.PhysicalResourceId,undefined);
         cb();
