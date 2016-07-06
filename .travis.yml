@@ -1,8 +1,9 @@
 language: node_js
 node_js:
 - stable
-- v5
-- v4
+- 5
+- 4
+- 4.3
 - '0.12'
 after_script: NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha
   --report lcovonly -- -R spec --timeout 15000 --recursive test/ && cat ./coverage/lcov.info
@@ -15,3 +16,4 @@ deploy:
   on:
     tags: true
     repo: SungardAS/cfn-responder
+    node: 4.3
