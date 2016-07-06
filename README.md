@@ -15,10 +15,10 @@ This module makes the following enhancements:
 
 * Added check to ensure Data is a key/pair object.  Prevents silent
   failures after submitting to S3
-* Will remove PhysicalResourceId when the `ResourceType` is `Create` and
-  the status is `FAILED` per the AWS [documentation](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/crpg-ref-requesttypes-create.html).
-* Removes console.log statements in favor of forwarding request errors
-  to context.done directly
+* Will ensure a PhysicalResourceId is always present even if the lambda
+  function does not have permissions to CloudWatch Logs
+* For security console.log statements are removed to prevent leaking any
+  sensitive data.  Request errors and return objects are sent context.done only
 
 Any Lambda function using this module stops running after executing the module's send method.
 
