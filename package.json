@@ -1,6 +1,9 @@
 {
   "name": "cfn-responder",
-  "version": "0.1.5",
+  "version": "0.1.6",
+  "publishConfig": {
+    "tag": "latest"
+  },
   "description": "A module for sending CloudFormation compatible responses from AWS Lambda",
   "main": "index.js",
   "repository": {
