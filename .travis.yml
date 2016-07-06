@@ -1,7 +1,17 @@
 language: node_js
 node_js:
-  - stable
-  - v5
-  - v4
-  - '0.12'
-after_script: NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- -R spec --timeout 15000 --recursive test/ && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+- stable
+- v5
+- v4
+- '0.12'
+after_script: NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha
+  --report lcovonly -- -R spec --timeout 15000 --recursive test/ && cat ./coverage/lcov.info
+  | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+deploy:
+  provider: npm
+  email: as.us.labs@sungardas.com
+  api_key:
+    secure: k/zolhE5OgAyrmhF4qCy9qQdDDJqK7ESjLWKTw3hSp1i4+jX2W+4mcMRK/FzwJiZCl8JgQRPbcYlzo/0fzvQsmYh11w/sDaRY5NvqxRR95MGMt02Ac4eGkx+ZGIM/eet8BYBLgT8DqOCpSdQo3bGOvaipbbwuVRxdaX80bHxDpch7I1eqWNQSX0OOwjKdfaotnmEHAPrmEXaA6aqJeSH0ND1+DhFAkcVBDK042Qs5BCvkOBlhWF1l9eKzCvVhr7iBqv6/ZtOJW3NygGICaToD0Mb+spLDUI1UGC0fqpZ+TaeS9LuKcLeft0jmqOnJLi3nUBL4LyDOu2XCJK1IX2pAGFY4OgAJbdWK+ru1ZwlS0Qbj0CQ2XdlMQYbMd1+36ODWzp8g7Ah6mkqvUExMfsMz9OnDzPDetPgZMEH8F2WoBu8gSPeZQ7lYGScAEE0IrR5GtkLu3qfw4VEr9eEu/NmONFqjZHcyrKBVzyNJCuh+hFHPl6V1PvmPbLApgtzIuOPXLgX9R2aJ80Ip1wVCQ/qo/Tt2oMPvS/lDI0ZiSJ6PSm2ROzMzWeV4pNy/0/628d9tDc2SoKipsNpnTpuNCTSUdlexDP6KZTu3IIoHGnpiEmr+DA8uY/gJ8cJEwPeXuqaDwLp6OP9hqhCCto37JvDZzAP9hgixFXMoQI9tisvAKg=
+  on:
+    tags: true
+    repo: SungardAS/cfn-responder
