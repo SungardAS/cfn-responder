@@ -17,8 +17,12 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
     Data: responseData
   };
 
-  if (!(event.RequestType === 'Create' && responseStatus === exports.FAILED)) {
-    jsonBody.PhysicalResourceId = physicalResourceId || context.logStreamName;
+  jsonBody.PhysicalResourceId = physicalResourceId || context.logStreamName;
+
+  // If this lambda function does not have permissions to CloudWatch Logs
+  // a PhysicalResourceId is still needed to send to CloudFormation.
+  if (event.RequestType === 'Create' && responseStatus === exports.FAILED && !jsonBody.PhysicalResourceId) {
+    jsonBody.PhysicalResourceId = exports.FAILED;
   }
 
   var responseBody = JSON.stringify(jsonBody);
@@ -39,13 +43,8 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
   };
 
   var request = https.request(options, function(response) {
-    if (response.statusCode === 200 && responseStatus === exports.SUCCESS)
+    if (response.statusCode === 200)
       return context.done(null, jsonBody);
-
-    if (response.statusCode === 200 && responseStatus === exports.FAILED) {
-      console.error(jsonBody);
-      return context.done(jsonBody.Reason, jsonBody);
-    }
 
     context.done("Failed to communicate to S3: " + response.statusCode,jsonBody);
   });

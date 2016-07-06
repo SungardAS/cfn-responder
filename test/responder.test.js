@@ -34,7 +34,7 @@ describe("cfn-responder", function() {
     responder.send(event,context,responder.SUCCESS);
   });
 
-  it("should remove PhysicalResourceId if the RequestType is Create and status is failed", function(cb) {
+  it("should contain a PhysicalResourceId if the RequestType is Create and status is failed", function(cb) {
 
     nock('https://fake.url')
     .put('/', {"Status":"FAILED","Reason":"See the details in CloudWatch Log Stream: undefined","StackId":"arn:aws:cloudformation:us-east-1:namespace:stack/stack-name/guid","RequestId":"unique id for this create request","LogicalResourceId":"name of resource in template","Data":{}})
@@ -52,9 +52,9 @@ describe("cfn-responder", function() {
 
     var context = {
       done: function(err,obj) {
-        assert(err);
+        assert.ifError(err);
         assert(obj.RequestId);
-        assert.equal(obj.PhysicalResourceId,undefined);
+        assert.equal(obj.PhysicalResourceId,'FAILED');
         cb();
       }
     };
