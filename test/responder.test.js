@@ -27,11 +27,11 @@ describe("cfn-responder", function() {
 
     var context = {
       done: function(err,obj) {
-        assert(err);
+        assert.ifError(err);
         cb();
       }
     };
-    responder.send(event,context,responder.SUCCESS,"string",{returnError: false});
+    responder.send(event,context,responder.SUCCESS,"string",null,{returnError: false});
   });
 
   it("should return failure if no communication to S3", function(cb) {
