@@ -33,5 +33,9 @@
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "nock": "^7.2.1"
+  },
+  "dependencies": {
+    "loglevel": "^1.4.1",
+    "rc": "^1.1.6"
   }
 }
