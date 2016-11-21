@@ -19,6 +19,21 @@ describe("cfn-responder", function() {
     responder.send(event,context,responder.SUCCESS,"string");
   });
 
+  it("should succeed if Data is not a key/pair object and returnError is false", function(cb) {
+
+    var event = {
+      ResponseURL: "https://fake.url"
+    };
+
+    var context = {
+      done: function(err,obj) {
+        assert(err);
+        cb();
+      }
+    };
+    responder.send(event,context,responder.SUCCESS,"string",{returnError: false});
+  });
+
   it("should return failure if no communication to S3", function(cb) {
 
     var event = {
