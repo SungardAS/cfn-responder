@@ -1,5 +1,5 @@
 var rc = require("rc");
-var log = require("loglevel");
+var log = require("./lib/log").getLogger();
 
 exports.SUCCESS = "SUCCESS";
 exports.FAILED = "FAILED";
@@ -18,7 +18,7 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
 
   var cfg = rc("cfn_responder",DEFAULTS,options);
   var doneCallback = context.done;
-  log.setLevel(cfg.logLevel);
+  log.level = cfg.logLevel;
 
   responseData = responseData || {};
   if (typeof responseData !== 'object') {
@@ -48,7 +48,7 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
     jsonBody.PhysicalResourceId = exports.FAILED;
   }
 
-  log.debug(jsonBody);
+  log.debug("jsonBody", {data: jsonBody});
   var responseBody = JSON.stringify(jsonBody);
 
   var https = require("https");
@@ -65,7 +65,7 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
       "content-length": responseBody.length
     }
   };
-  log.debug("httpOptions",httpOptions);
+  log.debug("httpOptions",{data: httpOptions});
 
   var request = https.request(httpOptions, function(response) {
     if (response.statusCode === 200)
@@ -76,7 +76,7 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
       return doneCallback(errMsg,jsonBody);
     }
     else {
-      log.info(errMsg);
+      log.error(errMsg);
       return doneCallback(null);
     }
   });
@@ -87,7 +87,7 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
       doneCallback(errMsg);
     }
     else {
-      log.info(errMsg);
+      log.error(errMsg);
       doneCallback(null);
     }
   });
