@@ -17,8 +17,13 @@ exports.send = function(event, context, responseStatus, responseData, physicalRe
   options = options || {};
 
   var cfg = rc("cfn_responder",DEFAULTS,options);
-  var doneCallback = context.done;
   log.level = cfg.logLevel;
+
+  var doneCallback = function() {
+    log.debug("Finish Lambda callback", {data: arguments});
+    context.done.apply(this,arguments);
+  };
+
 
   responseData = responseData || {};
   if (typeof responseData !== 'object') {
